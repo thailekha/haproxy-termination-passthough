@@ -1,0 +1,1 @@
+docker run -it --rm --name my-running-haproxy --network=host -v $(pwd):/usr/local/etc/haproxy:ro haproxy
