@@ -1,0 +1,43 @@
+
+digraph G {
+  graph[center=true, ranksep=1, nodesep=0.2, splines=true]
+  edge[arrowsize=0.9, arrowhead=vee]
+  node [shape="box"]
+  browser
+
+  subgraph cluster_0 {
+    label="Dev VM"
+    subgraph cluster_0a {
+      label="HaProxy"
+      8443
+      9443
+    }
+    subgraph cluster_0b {
+      label="Nodejs"
+      subgraph cluster_0c {
+        label="HTTP"
+        hx [shape=point]
+        3000
+        3001
+        3002
+      }
+
+      subgraph cluster_0d {
+        label="HTTPS"
+        sx [shape=point]
+        5000
+        5001
+        5002
+      }
+    }
+  }
+
+  browser -> 8443 [color=red]
+  browser -> 9443 [color=red]
+
+  8443 -> hx
+  9443 -> sx
+
+  hx -> browser [color=blue]
+  sx -> browser [color=blue]
+}

@@ -48,8 +48,10 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "devbox" do |devbox|
-    forward_port[80,8000]
-    forward_port[443,8443]
+    forward_port[8000]
+    forward_port[8443]
+    forward_port[9000]
+    forward_port[9443]
     forward_port[1936]
     common_config[devbox]
 
