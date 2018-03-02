@@ -1,17 +1,31 @@
-// File /srv/server.js
-var http = require('http');
-function serve(ip, port)
-{
-	http.createServer(function (req, res) {
-	res.writeHead(200, {'Content-Type': 'text/plain'});
-	res.write(JSON.stringify(req.headers));
-	res.end("\nThere's no place like "+ip+":"+port+"\n");
-	}).listen(port, ip);
-	console.log('Server running at http://'+ip+':'+port+'/');
+const express = require("express");
+const https = require("https");
+const fs = require("fs");
+
+function dir(dirPath) {
+  return require("path").resolve(__dirname, dirPath);
 }
-// Create three servers for
-// the load balancer, listening on any
-// network on the following three ports
-serve('0.0.0.0', 9000);
-serve('0.0.0.0', 9001);
-serve('0.0.0.0', 9002);
+
+function serve(port) {
+  // https
+  const httpsApp = express();
+  httpsApp.get("/", function(req, res) {
+    res.json({
+      port,
+      headers: req.headers
+    });
+  });
+
+  const httpsOptions = {
+    key: fs.readFileSync(dir(`nodekey/selfsigned.key`)),
+    cert: fs.readFileSync(dir(`nodekey/selfsigned.crt`))
+  };
+
+  https.createServer(httpsOptions, httpsApp).listen(port, () => {
+    console.log(`httpsApp listening on port ${port}`);
+  });
+}
+
+serve(9000);
+serve(9001);
+serve(9002);
