@@ -14,7 +14,7 @@ function handler(port) {
       requestingIP: `Requesting IP address: ${req.headers['x-forwarded-for']}`,
       proxyAddress: `HAproxy server address: ${req.connection.remoteAddress}`,
       port: `Instance that served page: ${port}`,
-      headerInfo: `HTTP Header info: ${JSON.stringify(req.headers)}`
+      headerInfo: `Header info: ${JSON.stringify(req.headers)}`
     };
 
     res.render('index', data);

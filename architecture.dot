@@ -4,13 +4,13 @@ digraph G {
   edge[arrowsize=0.9, arrowhead=vee]
   node [shape="box"]
   browser
-
   subgraph cluster_0 {
     label="Dev VM"
     subgraph cluster_0a {
-      label="HaProxy"
+      label="HaProxy container"
       8443
       9443
+      cfg [label="Mounted\nhaproxy.cfg file"]
     }
     subgraph cluster_0b {
       label="Nodejs"
@@ -31,13 +31,8 @@ digraph G {
       }
     }
   }
-
-  browser -> 8443 [color=red]
-  browser -> 9443 [color=red]
-
-  8443 -> hx
-  9443 -> sx
-
-  hx -> browser [color=blue]
-  sx -> browser [color=blue]
+  browser -> 8443 [dir=both, color=red]
+  browser -> 9443 [dir=both, color=red]
+  8443 -> hx [dir=both]
+  9443 -> sx [dir=both, color=red]
 }
